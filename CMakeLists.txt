@@ -23,8 +23,9 @@ if (EXISTS ${picoVscode})
     include(${picoVscode})
 endif()
 # ====================================================================================
-set(PICO_BOARD pimoroni_pico_plus2_w_rp2350 CACHE STRING "Board type")
-
+set(PICO_BOARD pimoroni_pico_plus2_rp2350 CACHE STRING "Board type")
+set(PICO_CYW43_SUPPORTED 1)
+set(PICO_DEOPTIMIZED_DEBUG 1)
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
@@ -46,7 +47,6 @@ pico_enable_stdio_uart(Keyboard_Demo 1)
 pico_enable_stdio_usb(Keyboard_Demo 0)
 
 target_compile_definitions(Keyboard_Demo PRIVATE
-  PICO_CYW43_SUPPORTED=1
   PICO_STACK_SIZE=4096
   CYW43_DEFAULT_PIN_WL_REG_ON=32
   CYW43_DEFAULT_PIN_WL_DATA_OUT=35

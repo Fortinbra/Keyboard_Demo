@@ -350,7 +350,6 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
         case HIDS_SUBEVENT_INPUT_REPORT_ENABLE:
             con_handle = hids_subevent_input_report_enable_get_con_handle(packet);
             printf("Report Characteristic Subscribed %u\n", hids_subevent_input_report_enable_get_enable(packet));
-            hid_embedded_start_typing();
             break;
         case HIDS_SUBEVENT_BOOT_KEYBOARD_INPUT_REPORT_ENABLE:
             con_handle = hids_subevent_boot_keyboard_input_report_enable_get_con_handle(packet);
@@ -372,8 +371,8 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
         break;
     }
 }
-
-int main()
+int main(void);
+int main(void)
 {
     stdio_init_all();
     if (cyw43_arch_init())
@@ -383,6 +382,8 @@ int main()
     }
     le_keyboard_setup();
     hci_power_control(HCI_POWER_ON);
+    hid_embedded_start_typing();
+
     while (true)
     {
         sleep_ms(1000);
