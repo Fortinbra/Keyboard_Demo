@@ -40,22 +40,35 @@ add_executable(Keyboard_Demo Keyboard_Demo.cpp )
 pico_set_program_name(Keyboard_Demo "Keyboard_Demo")
 pico_set_program_version(Keyboard_Demo "0.1")
 
+
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Keyboard_Demo 1)
 pico_enable_stdio_usb(Keyboard_Demo 0)
+
+target_compile_definitions(Keyboard_Demo PRIVATE
+  PICO_CYW43_SUPPORTED=1
+  PICO_STACK_SIZE=4096
+  CYW43_DEFAULT_PIN_WL_REG_ON=32
+  CYW43_DEFAULT_PIN_WL_DATA_OUT=35
+  CYW43_DEFAULT_PIN_WL_DATA_IN=35
+  CYW43_DEFAULT_PIN_WL_HOST_WAKE=35
+  CYW43_DEFAULT_PIN_WL_CLOCK=34
+  CYW43_DEFAULT_PIN_WL_CS=33
+  )
 
 # Add the standard library to the build
 target_link_libraries(Keyboard_Demo
         pico_stdlib
         pico_btstack_ble
         pico_btstack_cyw43
-        pico_cyw43_arch_none)
+        pico_cyw43_arch_none
+        )
 
 # Add the standard include files to the build
 target_include_directories(Keyboard_Demo PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
 )
-pico_btstack_make_gatt_header(Keyboard_Demo PRIVATE "${CMAKE_CURRENT_LIST_DIR}/keyboard_demo.gatt")
+pico_btstack_make_gatt_header(Keyboard_Demo PRIVATE "${CMAKE_CURRENT_LIST_DIR}/hog_keyboard_demo.gatt")
 
 pico_add_extra_outputs(Keyboard_Demo)
 
